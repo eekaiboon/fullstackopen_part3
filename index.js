@@ -1,10 +1,13 @@
 const express = require('express')
 const morgan = require('morgan')
 
-const app = express()
+morgan.token('request', function (req, res) {
+    return JSON.stringify(req.body)
+})
 
+const app = express()
 app.use(express.json())
-app.use(morgan('tiny'))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :request'))
 
 let persons = [
     {
@@ -56,6 +59,7 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
+    console.log('in post handler')
     const person = request.body
     if (!person.name) {
         return response.status(400).json({
