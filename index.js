@@ -53,6 +53,23 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
     const person = request.body
+    if (!person.name) {
+        return response.status(400).json({
+            error: 'name is missing'
+        })
+    }
+    if (!person.number) {
+        return response.status(400).json({
+            error: 'number is missing'
+        })
+    }
+    const dup = persons.find(p => p.name === person.name)
+    if (dup) {
+        return response.status(400).json({
+            error: 'name must be unique'
+        })
+    }
+
     const personId = getRandomInt(10000)
     person.id = String(personId)
     persons = persons.concat(person)
@@ -71,4 +88,3 @@ app.listen(PORT, () => {
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
-  
