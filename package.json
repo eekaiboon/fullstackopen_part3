@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build:ui": "rm -rf dist && cd ../fullstackopen/part_2/phonebook/ && npm run build && cp -r dist ../../../fullstackopen_part3",
+    "deploy": "fly deploy",
+    "deploy:full": "npm run build:ui && npm run deploy",    
+    "logs:prod": "fly logs",
     "dev": "nodemon index.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
